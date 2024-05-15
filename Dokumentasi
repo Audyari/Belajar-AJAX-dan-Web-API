@@ -1,9 +1,77 @@
-Pengenalan Ajax Request
+Mengenal Api
 
-==============================
+================
 
-Ajax (Asynchronous JavaScript and XML) adalah teknik pengembangan web yang memungkinkan pertukaran data antara 
-server dan pengguna tanpa harus melakukan refresh halaman secara keseluruhan.
+API (Application Programming Interface) adalah set instruksi dan protokol yang memungkinkan berbagai perangkat lunak berkomunikasi dan berinteraksi satu sama lain.
+
+================================
+
+contoh sederhana penggunaan API :
+
+1. link web api nya : https://api.coindesk.com/v1/bpi/currentprice.json
+2. buat index.html
+
+index.html :
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Bitcoin Price</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+        }
+        .currency {
+            margin-bottom: 10px;
+        }
+        .currency label {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bitcoin Price</h1>
+
+    <div class="currency">
+        <label>USD:</label>
+        <span id="usdRate"></span>
+    </div>
+
+    <div class="currency">
+        <label>GBP:</label>
+        <span id="gbpRate"></span>
+    </div>
+
+    <div class="currency">
+        <label>EUR:</label>
+        <span id="eurRate"></span>
+    </div>
+
+    <script>
+        // Mengambil data harga Bitcoin dari API CoinDesk
+        fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
+            .then(response => response.json())
+            .then(data => {
+                // Mendapatkan data harga Bitcoin dalam berbagai mata uang
+                const usdRate = data.bpi.USD.rate;
+                const gbpRate = data.bpi.GBP.rate;
+                const eurRate = data.bpi.EUR.rate;
+
+                // Menampilkan data harga Bitcoin
+                document.getElementById("usdRate").innerText = usdRate;
+                document.getElementById("gbpRate").innerText = gbpRate;
+                document.getElementById("eurRate").innerText = eurRate;
+            })
+            .catch(error => {
+                console.log('Terjadi kesalahan:', error);
+            });
+    </script>
+</body>
+</html>
 
 
-===============================
+=========================================================
