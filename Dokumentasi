@@ -1,77 +1,168 @@
-Mengenal Api
+Apa Itu Json
 
-================
+=================
+link : https://jsonformatter.curiousconcept.com/#
+link : https://www.json.org/json-en.html
 
-API (Application Programming Interface) adalah set instruksi dan protokol yang memungkinkan berbagai perangkat lunak berkomunikasi dan berinteraksi satu sama lain.
+JSON (JavaScript Object Notation) adalah format data ringan yang digunakan untuk pertukaran data antara server dan web browser, serta antar aplikasi.
+1. JSON PARSE() :
+2. JSON.stringify()
 
-================================
+========================
 
-contoh sederhana penggunaan API :
+AJAX : X nya itu XML
 
-1. link web api nya : https://api.coindesk.com/v1/bpi/currentprice.json
-2. buat index.html
+contoh :
 
-index.html :
+<catalog>
+  <book id="001">
+    <title>The Great Gatsby</title>
+    <author>F. Scott Fitzgerald</author>
+    <year>1925</year>
+  </book>
+  <book id="002">
+    <title>To Kill a Mockingbird</title>
+    <author>Harper Lee</author>
+    <year>1960</year>
+  </book>
+</catalog>
+
+=======================
+
+contoh lain dengan json :
+
+buat characterData.js
+
+const characterData = {
+  name: "Luke Skywalker",
+  height: "172",
+  mass: "77",
+  hair_color: "blond",
+  skin_color: "fair",
+  eye_color: "blue",
+  birth_year: "19BBY",
+  gender: "male",
+  homeworld: "https://swapi.dev/api/planets/1/",
+  films: [
+    "https://swapi.dev/api/films/1/",
+    "https://swapi.dev/api/films/2/",
+    "https://swapi.dev/api/films/3/",
+    "https://swapi.dev/api/films/6/",
+  ],
+  species: [],
+  vehicles: [
+    "https://swapi.dev/api/vehicles/14/",
+    "https://swapi.dev/api/vehicles/30/",
+  ],
+  starships: [
+    "https://swapi.dev/api/starships/12/",
+    "https://swapi.dev/api/starships/22/",
+  ],
+  created: "2014-12-09T13:50:51.644000Z",
+  edited: "2014-12-20T21:17:56.891000Z",
+  url: "https://swapi.dev/api/people/1/",
+};
+
+
+===========================================
+
+terus buat index.html : 
+
+1. sambungin ke characterData.js
+2. ketik characterData di console web .
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Bitcoin Price</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        h1 {
-            text-align: center;
-        }
-        .currency {
-            margin-bottom: 10px;
-        }
-        .currency label {
-            font-weight: bold;
-        }
-    </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars Character</title>
+    <script src="characterData.js"></script>
 </head>
+
 <body>
-    <h1>Bitcoin Price</h1>
 
-    <div class="currency">
-        <label>USD:</label>
-        <span id="usdRate"></span>
-    </div>
-
-    <div class="currency">
-        <label>GBP:</label>
-        <span id="gbpRate"></span>
-    </div>
-
-    <div class="currency">
-        <label>EUR:</label>
-        <span id="eurRate"></span>
-    </div>
-
-    <script>
-        // Mengambil data harga Bitcoin dari API CoinDesk
-        fetch('https://api.coindesk.com/v1/bpi/currentprice.json')
-            .then(response => response.json())
-            .then(data => {
-                // Mendapatkan data harga Bitcoin dalam berbagai mata uang
-                const usdRate = data.bpi.USD.rate;
-                const gbpRate = data.bpi.GBP.rate;
-                const eurRate = data.bpi.EUR.rate;
-
-                // Menampilkan data harga Bitcoin
-                document.getElementById("usdRate").innerText = usdRate;
-                document.getElementById("gbpRate").innerText = gbpRate;
-                document.getElementById("eurRate").innerText = eurRate;
-            })
-            .catch(error => {
-                console.log('Terjadi kesalahan:', error);
-            });
-    </script>
 </body>
+
+</html>
+
+======================
+
+
+JSON PARSE() :
+
+contoh sederhana : 
+
+buat test.js :
+
+const jsonString = '{"name": "John", "age": 30, "city": "New York"}';
+const obj = JSON.parse(jsonString);
+
+console.log(obj.name); // Output: John
+console.log(obj.age); // Output: 30
+console.log(obj.city); // Output: New York
+
+======================
+
+buat index.html : 
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars Character</title>
+    <script src="test.js"></script>
+</head>
+
+<body>
+
+</body>
+
 </html>
 
 
-=========================================================
+===================================
+
+2. JSON.stringify()
+
+contoh characterData.js :
+
+const obj = {
+  name: "John",
+  age: 30,
+  city: "New York",
+};
+
+const jsonString = JSON.stringify(obj, null, 2);
+console.log(jsonString);
+/* Output:
+{
+  "name": "John",
+  "age": 30,
+  "city": "New York"
+}
+*/
+
+
+===============================
+
+index.html : <!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star Wars Character</title>
+    <script src="characterData1.js"></script>
+</head>
+
+<body>
+
+</body>
+
+</html>
+
+==============================
