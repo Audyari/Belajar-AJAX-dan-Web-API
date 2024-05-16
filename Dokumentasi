@@ -1,41 +1,15 @@
-Lebih Mudah Akses Web Api Dengan Postman Dan Hoppscotch
+Mengenal Http Verb Atau Http Method
 
-==========================================
+=======================================
 
-Link nya : https://www.postman.com/downloads/?utm_source=postman-home
-link nya : https://hoppscotch.io/
+HTTP Verb : 
 
-==============================
+GET: Digunakan untuk mengambil data dari server. Metode ini bersifat aman dan tidak mengubah data di server.
+POST: Digunakan untuk mengirim data baru ke server. Data dikirim dalam bentuk payload atau body request.
+PUT: Digunakan untuk memperbarui data yang ada di server. Data lengkap dikirim untuk menggantikan data yang ada.
+PATCH: Digunakan untuk memperbarui sebagian data yang ada di server. Hanya data yang perlu diperbarui yang dikirim.
+DELETE: Digunakan untuk menghapus data dari server.
+HEAD: Digunakan untuk mengambil header dari respons server, tanpa mengambil isi (body) respons.
+OPTIONS: Digunakan untuk mendapatkan opsi komunikasi yang tersedia untuk target sumber daya.
 
-link json nya : https://catfact.ninja/fact
-
-============================
-
-buat code simpel nya :
-
-index.html
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cat Fact</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-
-<body>
-    <h1 id="fact"></h1>
-
-    <script>
-        $.get('https://catfact.ninja/fact', function (data) {
-            // Display the cat fact on the page
-            $('#fact').text(data.fact);
-        });
-    </script>
-</body>
-
-</html>
-
-===============================================
+=============================================
