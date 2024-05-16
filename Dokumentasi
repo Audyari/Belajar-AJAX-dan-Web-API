@@ -1,15 +1,25 @@
-Mengenal Http Verb Atau Http Method
+Penjelasan Kode Angka Dari Respon Http
 
-=======================================
+======================================
 
-HTTP Verb : 
+1. 2xx (Successful): Kode status 2xx menandakan bahwa permintaan yang dilakukan oleh klien telah berhasil.
+      * 200 OK: Permintaan berhasil dan server mengembalikan data yang diminta.
+      * 201 Created: Permintaan untuk membuat sumber daya baru telah berhasil.
+      * 204 No Content: Permintaan berhasil, tetapi tidak ada konten yang dikembalikan.
 
-GET: Digunakan untuk mengambil data dari server. Metode ini bersifat aman dan tidak mengubah data di server.
-POST: Digunakan untuk mengirim data baru ke server. Data dikirim dalam bentuk payload atau body request.
-PUT: Digunakan untuk memperbarui data yang ada di server. Data lengkap dikirim untuk menggantikan data yang ada.
-PATCH: Digunakan untuk memperbarui sebagian data yang ada di server. Hanya data yang perlu diperbarui yang dikirim.
-DELETE: Digunakan untuk menghapus data dari server.
-HEAD: Digunakan untuk mengambil header dari respons server, tanpa mengambil isi (body) respons.
-OPTIONS: Digunakan untuk mendapatkan opsi komunikasi yang tersedia untuk target sumber daya.
+2. 3xx (Redirection): Kode status 3xx menandakan bahwa diperlukan tindakan lebih lanjut untuk menyelesaikan permintaan.
+      * 301 Moved Permanently: Sumber daya yang diminta telah dipindahkan secara permanen ke URL baru.
+      * 302 Found: Sumber daya yang diminta sementara berada di URL lain.
+      * 304 Not Modified: Sumber daya yang diminta tidak berubah sejak permintaan terakhir.
 
-=============================================
+3. 4xx (Client Error): Kode status 4xx menandakan bahwa terdapat masalah dengan permintaan yang dilakukan oleh klien.
+      * 400 Bad Request: Permintaan yang dikirim oleh klien tidak valid atau tidak dapat diproses.
+      * 401 Unauthorized: Klien tidak memiliki hak akses yang diperlukan untuk melakukan permintaan.
+      * 404 Not Found: Sumber daya yang diminta tidak ditemukan di server.
+      * 409 Conflict: Terjadi konflik saat memproses permintaan, misalnya saat mencoba membuat sumber daya yang sudah ada.
+
+4. 5xx (Server Error): Kode status 5xx menandakan bahwa terdapat masalah di sisi server.
+      * 500 Internal Server Error: Terjadi kesalahan internal di server saat memproses permintaan.
+      * 503 Service Unavailable: Server saat ini tidak dapat menerima permintaan, mungkin karena sedang dalam pemeliharaan atau kelebihan beban.
+
+====================================================================
