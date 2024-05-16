@@ -1,168 +1,41 @@
-Apa Itu Json
+Lebih Mudah Akses Web Api Dengan Postman Dan Hoppscotch
 
-=================
-link : https://jsonformatter.curiousconcept.com/#
-link : https://www.json.org/json-en.html
+==========================================
 
-JSON (JavaScript Object Notation) adalah format data ringan yang digunakan untuk pertukaran data antara server dan web browser, serta antar aplikasi.
-1. JSON PARSE() :
-2. JSON.stringify()
-
-========================
-
-AJAX : X nya itu XML
-
-contoh :
-
-<catalog>
-  <book id="001">
-    <title>The Great Gatsby</title>
-    <author>F. Scott Fitzgerald</author>
-    <year>1925</year>
-  </book>
-  <book id="002">
-    <title>To Kill a Mockingbird</title>
-    <author>Harper Lee</author>
-    <year>1960</year>
-  </book>
-</catalog>
-
-=======================
-
-contoh lain dengan json :
-
-buat characterData.js
-
-const characterData = {
-  name: "Luke Skywalker",
-  height: "172",
-  mass: "77",
-  hair_color: "blond",
-  skin_color: "fair",
-  eye_color: "blue",
-  birth_year: "19BBY",
-  gender: "male",
-  homeworld: "https://swapi.dev/api/planets/1/",
-  films: [
-    "https://swapi.dev/api/films/1/",
-    "https://swapi.dev/api/films/2/",
-    "https://swapi.dev/api/films/3/",
-    "https://swapi.dev/api/films/6/",
-  ],
-  species: [],
-  vehicles: [
-    "https://swapi.dev/api/vehicles/14/",
-    "https://swapi.dev/api/vehicles/30/",
-  ],
-  starships: [
-    "https://swapi.dev/api/starships/12/",
-    "https://swapi.dev/api/starships/22/",
-  ],
-  created: "2014-12-09T13:50:51.644000Z",
-  edited: "2014-12-20T21:17:56.891000Z",
-  url: "https://swapi.dev/api/people/1/",
-};
-
-
-===========================================
-
-terus buat index.html : 
-
-1. sambungin ke characterData.js
-2. ketik characterData di console web .
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Wars Character</title>
-    <script src="characterData.js"></script>
-</head>
-
-<body>
-
-</body>
-
-</html>
-
-======================
-
-
-JSON PARSE() :
-
-contoh sederhana : 
-
-buat test.js :
-
-const jsonString = '{"name": "John", "age": 30, "city": "New York"}';
-const obj = JSON.parse(jsonString);
-
-console.log(obj.name); // Output: John
-console.log(obj.age); // Output: 30
-console.log(obj.city); // Output: New York
-
-======================
-
-buat index.html : 
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Wars Character</title>
-    <script src="test.js"></script>
-</head>
-
-<body>
-
-</body>
-
-</html>
-
-
-===================================
-
-2. JSON.stringify()
-
-contoh characterData.js :
-
-const obj = {
-  name: "John",
-  age: 30,
-  city: "New York",
-};
-
-const jsonString = JSON.stringify(obj, null, 2);
-console.log(jsonString);
-/* Output:
-{
-  "name": "John",
-  "age": 30,
-  "city": "New York"
-}
-*/
-
-
-===============================
-
-index.html : <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Wars Character</title>
-    <script src="characterData1.js"></script>
-</head>
-
-<body>
-
-</body>
-
-</html>
+Link nya : https://www.postman.com/downloads/?utm_source=postman-home
+link nya : https://hoppscotch.io/
 
 ==============================
+
+link json nya : https://catfact.ninja/fact
+
+============================
+
+buat code simpel nya :
+
+index.html
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cat Fact</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+
+<body>
+    <h1 id="fact"></h1>
+
+    <script>
+        $.get('https://catfact.ninja/fact', function (data) {
+            // Display the cat fact on the page
+            $('#fact').text(data.fact);
+        });
+    </script>
+</body>
+
+</html>
+
+===============================================
