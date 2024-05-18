@@ -1,213 +1,65 @@
-Menambahkan Data Headers Di Request Menggunakan Axios
-
-==================================================
+Menampilkan Daftar Acara Tv Dengan Axios
 
 
-index.html : 
+=============================================
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Axios with Headers</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        padding: 20px;
-      }
-
-      #joke {
-        font-size: 24px;
-        margin-bottom: 20px;
-        min-height: 60px; /* Menambahkan min-height untuk menjaga ukuran paragraf */
-      }
-
-      #newJokeBtn {
-        background-color: #4caf50;
-        border: none;
-        color: white;
-        padding: 10px 20px;
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        font-size: 16px;
-        border-radius: 4px;
-        cursor: pointer;
-        min-width: 150px; /* Menambahkan min-width untuk menjaga ukuran tombol */
-      }
-
-      #newJokeBtn:hover {
-        background-color: #45a049;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Random dad joke:</h1>
-    <div><p id="joke"></p></div>
-    <div><button id="newJokeBtn">Get New Joke</button></div>
-
-    <script>
-      async function fetchData() {
-        try {
-          const response = await axios.get("https://icanhazdadjoke.com/", {
-            headers: {
-              Accept: "application/json",
-            },
-          });
-
-          // Menampilkan data joke di elemen dengan id "joke"
-          document.getElementById("joke").textContent = response.data.joke;
-        } catch (error) {
-          console.error(error);
-        }
-      }
-
-      // Panggil fungsi fetchData() saat halaman dimuat
-      fetchData();
-
-      // Tambahkan event listener pada tombol "Get New Joke"
-      document
-        .getElementById("newJokeBtn")
-        .addEventListener("click", fetchData);
-    </script>
-  </body>
-</html>
-
-
-===========================================================
-
-
-pengembangan :
-
-buat index.html, app.js dan app.css...
+1. web nya : https://www.tvmaze.com/api
+ code buatan codepolitan :
 
 index.html 
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Random Dad Joke</title>
-    <link rel="stylesheet" href="app.css" />
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TV Show Finder</title>
   </head>
   <body>
-    <h1>Random dad jokes:</h1>
-    <div id="joke-list"></div>
-    <div>
-      <button id="newJokeBtn">Get New Joke</button>
-      <button id="resetBtn">Reset Jokes</button>
-    </div>
+    <h1>TV Show Finder</h1>
 
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <form action="" id="search-form">
+      <input type="text" name="query" id="" />
+      <button>Find</button>
+    </form>
+
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>
 
 
-=========================
+============================================
 
 app.js
 
-// Array untuk menyimpan daftar joke
-let jokeList = [];
 
-// Fungsi untuk mengambil data joke dari localStorage
-function getJokeListFromLocalStorage() {
-  const storedJokeList = localStorage.getItem('jokeList');
-  return storedJokeList ? JSON.parse(storedJokeList) : [];
-}
+const form = document.querySelector('#search-form');
 
-// Fungsi untuk menyimpan data joke ke localStorage
-function saveJokeListToLocalStorage(jokeList) {
-  localStorage.setItem('jokeList', JSON.stringify(jokeList));
-}
+form.addEventListener('submit', async (e) => {
+	e.preventDefault();
 
-async function fetchData() {
-  try {
-    const response = await axios.get("https://icanhazdadjoke.com/", {
-      headers: {
-        Accept: "application/json",
-      },
-    });
+	document.querySelectorAll('img').forEach((img) => img.remove());
 
-    // Tambahkan joke baru ke daftar joke
-    jokeList.push(response.data.joke);
-
-    // Simpan daftar joke ke localStorage
-    saveJokeListToLocalStorage(jokeList);
-
-    // Menampilkan daftar joke di elemen dengan id "joke-list"
-    displayJokeList();
-  } catch (error) {
-    console.error(error);
-  }
-}
-
-function displayJokeList() {
-  const jokeListElement = document.getElementById("joke-list");
-  jokeListElement.innerHTML = "";
-
-  jokeList.forEach((joke, index) => {
-    const jokeItem = document.createElement("div");
-    jokeItem.textContent = `${index + 1}. ${joke}`;
-    jokeListElement.appendChild(jokeItem);
-  });
-}
-
-function resetJokeList() {
-  jokeList = [];
-  saveJokeListToLocalStorage(jokeList);
-  displayJokeList();
-  localStorage.removeItem('jokeList'); // Menghapus data dari localStorage
-}
-
-// Panggil fungsi fetchData() saat halaman dimuat
-window.addEventListener('DOMContentLoaded', () => {
-  jokeList = getJokeListFromLocalStorage();
-  displayJokeList();
+	const keyword = form.elements.query.value;
+	const config = {
+		params: { q: keyword },
+	};
+	const res = await axios.get(`http://api.tvmaze.com/search/shows`, config);
+	getImages(res.data);
+	form.elements.query.value = '';
 });
 
-// Tambahkan event listener pada tombol "Get New Joke"
-document.getElementById("newJokeBtn").addEventListener("click", fetchData);
-
-// Tambahkan event listener pada tombol "Reset Jokes"
-document.getElementById("resetBtn").addEventListener("click", resetJokeList);
-
-
-===========================================
-
-app.css
-
-
-body {
-  font-family: Arial, sans-serif;
-  text-align: center;
-  padding: 20px;
-}
-
-#joke {
-  font-size: 24px;
-  margin-bottom: 20px;
-  min-height: 60px; /* Menambahkan min-height untuk menjaga ukuran paragraf */
-}
-
-#newJokeBtn, #resetBtn {
-  background-color: #4caf50;
-  border: none;
-  color: white;
-  padding: 10px 20px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  min-width: 150px; /* Menambahkan min-width untuk menjaga ukuran tombol */
-}
-
-#newJokeBtn:hover {
-  background-color: #45a049;
-}
+const getImages = (shows) => {
+	for (let result of shows) {
+		if (result.show.image) {
+			const img = document.createElement('img');
+			img.src = result.show.image.medium;
+			document.body.append(img);
+		}
+	}
+};
 
 
-=============================================
+===================================================
