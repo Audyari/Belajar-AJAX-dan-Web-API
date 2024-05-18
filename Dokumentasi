@@ -1,25 +1,170 @@
-Penjelasan Kode Angka Dari Respon Http
+Mengenal Base Url Dan Query String Di Web Api
 
-======================================
+==================================================
 
-1. 2xx (Successful): Kode status 2xx menandakan bahwa permintaan yang dilakukan oleh klien telah berhasil.
-      * 200 OK: Permintaan berhasil dan server mengembalikan data yang diminta.
-      * 201 Created: Permintaan untuk membuat sumber daya baru telah berhasil.
-      * 204 No Content: Permintaan berhasil, tetapi tidak ada konten yang dikembalikan.
+1. buka https://hoppscotch.io/
+2. kita pake https://swapi.dev/documentation#people
 
-2. 3xx (Redirection): Kode status 3xx menandakan bahwa diperlukan tindakan lebih lanjut untuk menyelesaikan permintaan.
-      * 301 Moved Permanently: Sumber daya yang diminta telah dipindahkan secara permanen ke URL baru.
-      * 302 Found: Sumber daya yang diminta sementara berada di URL lain.
-      * 304 Not Modified: Sumber daya yang diminta tidak berubah sejak permintaan terakhir.
+3.  contoh code nya :
 
-3. 4xx (Client Error): Kode status 4xx menandakan bahwa terdapat masalah dengan permintaan yang dilakukan oleh klien.
-      * 400 Bad Request: Permintaan yang dikirim oleh klien tidak valid atau tidak dapat diproses.
-      * 401 Unauthorized: Klien tidak memiliki hak akses yang diperlukan untuk melakukan permintaan.
-      * 404 Not Found: Sumber daya yang diminta tidak ditemukan di server.
-      * 409 Conflict: Terjadi konflik saat memproses permintaan, misalnya saat mencoba membuat sumber daya yang sudah ada.
+buat index.html : 
 
-4. 5xx (Server Error): Kode status 5xx menandakan bahwa terdapat masalah di sisi server.
-      * 500 Internal Server Error: Terjadi kesalahan internal di server saat memproses permintaan.
-      * 503 Service Unavailable: Server saat ini tidak dapat menerima permintaan, mungkin karena sedang dalam pemeliharaan atau kelebihan beban.
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>SWAPI Character</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <h1>SWAPI Character</h1>
 
-====================================================================
+    <label for="character-id">Enter Character ID:</label>
+    <input type="number" id="character-id" min="1" value="1" />
+    <button id="fetch-character">Fetch Character</button>
+
+    <div id="character-info">
+      <h2 id="character-name"></h2>
+      <p>Height: <span id="character-height"></span></p>
+      <p>Mass: <span id="character-mass"></span></p>
+      <p>Hair Color: <span id="character-hair-color"></span></p>
+      <p>Skin Color: <span id="character-skin-color"></span></p>
+      <p>Eye Color: <span id="character-eye-color"></span></p>
+      <p>Birth Year: <span id="character-birth-year"></span></p>
+      <p>Gender: <span id="character-gender"></span></p>
+      <p>Homeworld: <a id="character-homeworld" target="_blank"></a></p>
+      <hr />
+      <p>Films:</p>
+      <ul id="character-films"></ul>
+      <hr />
+      <p>Vehicles:</p>
+      <ul id="character-vehicles"></ul>
+      <hr />
+      <p>Starships:</p>
+      <ul id="character-starships"></ul>
+    </div>
+
+    <script>
+      $("#fetch-character").click(function () {
+        const characterId = $("#character-id").val();
+        const characterUrl = `https://swapi.dev/api/people/${characterId}/`;
+
+        $.ajax({
+          url: characterUrl,
+          method: "GET",
+          success: function (data) {
+            displayCharacterInfo(data);
+          },
+          error: function (xhr, status, error) {
+            console.error("Error fetching character:", error);
+          },
+        });
+      });
+
+      function displayCharacterInfo(character) {
+        $("#character-name").text(character.name);
+        $("#character-height").text(character.height);
+        $("#character-mass").text(character.mass);
+        $("#character-hair-color").text(character.hair_color);
+        $("#character-skin-color").text(character.skin_color);
+        $("#character-eye-color").text(character.eye_color);
+        $("#character-birth-year").text(character.birth_year);
+        $("#character-gender").text(character.gender);
+        $("#character-homeworld")
+          .attr("href", character.homeworld)
+          .text(character.homeworld);
+
+        // Menampilkan daftar film
+        character.films.forEach((filmUrl) => {
+          $("<li>").text(filmUrl).appendTo("#character-films");
+        });
+
+        // Menampilkan daftar kendaraan
+        character.vehicles.forEach((vehicleUrl) => {
+          $("<li>").text(vehicleUrl).appendTo("#character-vehicles");
+        });
+
+        // Menampilkan daftar starship
+        character.starships.forEach((starshipUrl) => {
+          $("<li>").text(starshipUrl).appendTo("#character-starships");
+        });
+      }
+    </script>
+  </body>
+</html>
+
+
+
+========================================================================================
+
+code serhana API search dengan link : https://api.tvmaze.com/search/shows?q=girls
+
+buat index.html :
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>TVMaze Search</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+      #search-results {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .show-card {
+        width: 200px;
+        margin: 10px;
+        text-align: center;
+      }
+
+      .show-card img {
+        max-width: 100%;
+        height: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>TVMaze Search</h1>
+    <input type="text" id="search-input" placeholder="Search for a show" />
+    <button id="search-button">Search</button>
+    <div id="search-results"></div>
+
+    <script>
+      $("#search-button").click(function () {
+        const query = $("#search-input").val();
+        const url = `https://api.tvmaze.com/search/shows?q=${query}`;
+
+        $.ajax({
+          url: url,
+          method: "GET",
+          success: function (data) {
+            const searchResults = $("#search-results");
+            searchResults.empty();
+
+            $.each(data, function (index, result) {
+              const { show } = result;
+              const showCard = $("<div>").addClass("show-card");
+
+              const image = $("<img>")
+                .attr("src", show.image ? show.image.medium : "placeholder.jpg")
+                .attr("alt", show.name);
+              const title = $("<h3>").text(show.name);
+
+              showCard.append(image, title);
+              searchResults.append(showCard);
+            });
+          },
+          error: function (error) {
+            console.error("Error fetching shows:", error);
+          },
+        });
+      });
+    </script>
+  </body>
+</html>
+
+
+
+=================================================================
+
