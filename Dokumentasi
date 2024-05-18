@@ -1,72 +1,49 @@
-Mengenal Data Di Http Header
+Melakukan Request Dengan Xmlhttprequest
 
-===============================
+=============================================
 
-1. misal cek web https://icanhazdadjoke.com/
-2. pake https://hoppscotch.io/ 
-    pilih yg header 
-3. Header List nya pilih "Accept" Value nya kasih "application/json"
+contoh seder hana penggunaan Xmlhttprequest pada web : https://icanhazdadjoke.com/
 
-4. nanti hasil nya : 
-  {
-  "id": "eiyAXnWS0g",
-  "joke": "The biggest knight at King Arthur's round table was Sir Cumference. He acquired his size from eating too much pi.",
-  "status": 200
-}
-
-============================================================
-
-berikut kode sedaerhana yg bisa kita request dari web https://icanhazdadjoke.com/
-
-1. Mendapatkan joke random:
-2. Mencari joke berdasarkan keyword:
-3. Mengirimkan joke baru:
-4. Mengintegrasikan dengan berbagai platform:
-5.Mengakses informasi tambahan:
-
-
-BERIKUT COTOH DENGAN HTML DAN JQUERY :
+index.html :
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Random Dad Joke</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  </head>
-  <body>
-    <h1>Random Dad Joke</h1>
-    <div id="joke-container"></div>
-    <button id="get-joke-btn">Get New Joke</button>
+<head>
+  <title>XMLHttpRequest Example</title>
+</head>
+<body>
+  <h1>XMLHttpRequest Example</h1>
+  <button onclick="makeRequest()">Make Request</button>
+  <div id="response"></div>
 
-    <script>
-      function getRandomJoke() {
-        $.ajax({
-          url: "https://icanhazdadjoke.com/",
-          headers: {
-            Accept: "application/json",
-          },
-          success: function (data) {
-            $("#joke-container").text(data.joke);
-          },
-          error: function () {
-            $("#joke-container").text(
-              "Oops, there was an error fetching the joke."
-            );
-          },
-        });
-      }
+  <script>
+  function makeRequest() {
+  // Membuat objek XMLHttpRequest
+  var xhr = new XMLHttpRequest();
 
-      $(document).ready(function () {
-        getRandomJoke();
+  // Mendefinisikan metode HTTP dan URL tujuan
+  xhr.open('GET', 'https://icanhazdadjoke.com/', true);
 
-        $("#get-joke-btn").click(function () {
-          getRandomJoke();
-        });
-      });
-    </script>
-  </body>
+  // Mendefinisikan header request agar menerima response dalam format JSON
+  xhr.setRequestHeader('Accept', 'application/json');
+
+  // Mendefinisikan callback saat request selesai
+  xhr.onreadystatechange = function() {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+      // Request berhasil
+      var data = JSON.parse(xhr.responseText);
+      document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+    } else {
+      // Request gagal
+      document.getElementById('response').textContent = 'Error: ' + xhr.status;
+    }
+  };
+
+  // Mengirim request
+  xhr.send();
+
+}
+  </script>
 </html>
 
-
-
-===========================================================
+===================================================
