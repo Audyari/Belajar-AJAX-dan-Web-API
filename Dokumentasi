@@ -1,44 +1,45 @@
-Melakukan Request Dengan Fetch
+Melakukan Request Dengan Library Axios
 
-=============================================
+=====================================
 
-contoh seder hana penggunaan Fetch pada web : https://icanhazdadjoke.com/
+test pake axios dan jquery ke https://icanhazdadjoke.com/
 
-index.html :
+index..html
 
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>JavaScript Request Example</title>
-  </head>
-  <body>
-    <h1>JavaScript Request Example</h1>
+<head>
+  <title>Dad Joke App</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+  <h1>Dad Joke of the Day</h1>
+  <div id="result"></div>
 
-    <div id="result"></div>
-
-    <script>
-      fetch("https://icanhazdadjoke.com/", {
-        headers: {
-          Accept: "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          const resultDiv = document.getElementById("result");
-          resultDiv.innerHTML = `
-                    <p>Joke ID: ${data.id}</p>
-                    <p>Joke: ${data.joke}</p>
-                    <p>Status: ${data.status}</p>
-                `;
-        })
-        .catch((error) => {
-          const resultDiv = document.getElementById("result");
-          resultDiv.innerHTML = "<p>Error: Unable to fetch data</p>";
-          console.error(error);
+  <script>
+    async function fetchJoke() {
+      try {
+        const response = await axios.get("https://icanhazdadjoke.com/", {
+          headers: {
+            "Accept": "application/json"
+          }
         });
-    </script>
-  </body>
+
+        $("#result").html(`
+          <p>Joke ID: ${response.data.id}</p>
+          <p>Joke: ${response.data.joke}</p>
+          <p>Status: ${response.data.status}</p>
+        `);
+      } catch (error) {
+        $("#result").html("<p>Error: Unable to fetch data</p>");
+        console.error(error);
+      }
+    }
+
+    fetchJoke();
+  </script>
+</body>
 </html>
 
-
-==================================================
+==============================================
