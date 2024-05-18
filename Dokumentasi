@@ -1,163 +1,66 @@
-Mengenal Base Url Dan Query String Di Web Api
+Mengenal Data Di Http Header
 
-==================================================
+===============================
 
-1. buka https://hoppscotch.io/
-2. kita pake https://swapi.dev/documentation#people
+1. misal cek web https://icanhazdadjoke.com/
+2. pake https://hoppscotch.io/ 
+    pilih yg header 
+3. Header List nya pilih "Accept" Value nya kasih "application/json"
 
-3.  contoh code nya :
+4. nanti hasil nya : 
+  {
+  "id": "eiyAXnWS0g",
+  "joke": "The biggest knight at King Arthur's round table was Sir Cumference. He acquired his size from eating too much pi.",
+  "status": 200
+}
 
-buat index.html : 
+============================================================
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>SWAPI Character</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  </head>
-  <body>
-    <h1>SWAPI Character</h1>
+berikut kode sedaerhana yg bisa kita request dari web https://icanhazdadjoke.com/
 
-    <label for="character-id">Enter Character ID:</label>
-    <input type="number" id="character-id" min="1" value="1" />
-    <button id="fetch-character">Fetch Character</button>
-
-    <div id="character-info">
-      <h2 id="character-name"></h2>
-      <p>Height: <span id="character-height"></span></p>
-      <p>Mass: <span id="character-mass"></span></p>
-      <p>Hair Color: <span id="character-hair-color"></span></p>
-      <p>Skin Color: <span id="character-skin-color"></span></p>
-      <p>Eye Color: <span id="character-eye-color"></span></p>
-      <p>Birth Year: <span id="character-birth-year"></span></p>
-      <p>Gender: <span id="character-gender"></span></p>
-      <p>Homeworld: <a id="character-homeworld" target="_blank"></a></p>
-      <hr />
-      <p>Films:</p>
-      <ul id="character-films"></ul>
-      <hr />
-      <p>Vehicles:</p>
-      <ul id="character-vehicles"></ul>
-      <hr />
-      <p>Starships:</p>
-      <ul id="character-starships"></ul>
-    </div>
-
-    <script>
-      $("#fetch-character").click(function () {
-        const characterId = $("#character-id").val();
-        const characterUrl = `https://swapi.dev/api/people/${characterId}/`;
-
-        $.ajax({
-          url: characterUrl,
-          method: "GET",
-          success: function (data) {
-            displayCharacterInfo(data);
-          },
-          error: function (xhr, status, error) {
-            console.error("Error fetching character:", error);
-          },
-        });
-      });
-
-      function displayCharacterInfo(character) {
-        $("#character-name").text(character.name);
-        $("#character-height").text(character.height);
-        $("#character-mass").text(character.mass);
-        $("#character-hair-color").text(character.hair_color);
-        $("#character-skin-color").text(character.skin_color);
-        $("#character-eye-color").text(character.eye_color);
-        $("#character-birth-year").text(character.birth_year);
-        $("#character-gender").text(character.gender);
-        $("#character-homeworld")
-          .attr("href", character.homeworld)
-          .text(character.homeworld);
-
-        // Menampilkan daftar film
-        character.films.forEach((filmUrl) => {
-          $("<li>").text(filmUrl).appendTo("#character-films");
-        });
-
-        // Menampilkan daftar kendaraan
-        character.vehicles.forEach((vehicleUrl) => {
-          $("<li>").text(vehicleUrl).appendTo("#character-vehicles");
-        });
-
-        // Menampilkan daftar starship
-        character.starships.forEach((starshipUrl) => {
-          $("<li>").text(starshipUrl).appendTo("#character-starships");
-        });
-      }
-    </script>
-  </body>
-</html>
+1. Mendapatkan joke random:
+2. Mencari joke berdasarkan keyword:
+3. Mengirimkan joke baru:
+4. Mengintegrasikan dengan berbagai platform:
+5.Mengakses informasi tambahan:
 
 
-
-========================================================================================
-
-code serhana API search dengan link : https://api.tvmaze.com/search/shows?q=girls
-
-buat index.html :
+BERIKUT COTOH DENGAN HTML DAN JQUERY :
 
 <!DOCTYPE html>
 <html>
   <head>
-    <title>TVMaze Search</title>
+    <title>Random Dad Joke</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <style>
-      #search-results {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-
-      .show-card {
-        width: 200px;
-        margin: 10px;
-        text-align: center;
-      }
-
-      .show-card img {
-        max-width: 100%;
-        height: auto;
-      }
-    </style>
   </head>
   <body>
-    <h1>TVMaze Search</h1>
-    <input type="text" id="search-input" placeholder="Search for a show" />
-    <button id="search-button">Search</button>
-    <div id="search-results"></div>
+    <h1>Random Dad Joke</h1>
+    <div id="joke-container"></div>
+    <button id="get-joke-btn">Get New Joke</button>
 
     <script>
-      $("#search-button").click(function () {
-        const query = $("#search-input").val();
-        const url = `https://api.tvmaze.com/search/shows?q=${query}`;
-
+      function getRandomJoke() {
         $.ajax({
-          url: url,
-          method: "GET",
+          url: "https://icanhazdadjoke.com/",
+          headers: {
+            Accept: "application/json",
+          },
           success: function (data) {
-            const searchResults = $("#search-results");
-            searchResults.empty();
-
-            $.each(data, function (index, result) {
-              const { show } = result;
-              const showCard = $("<div>").addClass("show-card");
-
-              const image = $("<img>")
-                .attr("src", show.image ? show.image.medium : "placeholder.jpg")
-                .attr("alt", show.name);
-              const title = $("<h3>").text(show.name);
-
-              showCard.append(image, title);
-              searchResults.append(showCard);
-            });
+            $("#joke-container").text(data.joke);
           },
-          error: function (error) {
-            console.error("Error fetching shows:", error);
+          error: function () {
+            $("#joke-container").text(
+              "Oops, there was an error fetching the joke."
+            );
           },
+        });
+      }
+
+      $(document).ready(function () {
+        getRandomJoke();
+
+        $("#get-joke-btn").click(function () {
+          getRandomJoke();
         });
       });
     </script>
@@ -166,5 +69,4 @@ buat index.html :
 
 
 
-=================================================================
-
+===========================================================
