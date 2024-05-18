@@ -1,49 +1,44 @@
-Melakukan Request Dengan Xmlhttprequest
+Melakukan Request Dengan Fetch
 
 =============================================
 
-contoh seder hana penggunaan Xmlhttprequest pada web : https://icanhazdadjoke.com/
+contoh seder hana penggunaan Fetch pada web : https://icanhazdadjoke.com/
 
 index.html :
 
 <!DOCTYPE html>
 <html>
-<head>
-  <title>XMLHttpRequest Example</title>
-</head>
-<body>
-  <h1>XMLHttpRequest Example</h1>
-  <button onclick="makeRequest()">Make Request</button>
-  <div id="response"></div>
+  <head>
+    <title>JavaScript Request Example</title>
+  </head>
+  <body>
+    <h1>JavaScript Request Example</h1>
 
-  <script>
-  function makeRequest() {
-  // Membuat objek XMLHttpRequest
-  var xhr = new XMLHttpRequest();
+    <div id="result"></div>
 
-  // Mendefinisikan metode HTTP dan URL tujuan
-  xhr.open('GET', 'https://icanhazdadjoke.com/', true);
-
-  // Mendefinisikan header request agar menerima response dalam format JSON
-  xhr.setRequestHeader('Accept', 'application/json');
-
-  // Mendefinisikan callback saat request selesai
-  xhr.onreadystatechange = function() {
-    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
-      // Request berhasil
-      var data = JSON.parse(xhr.responseText);
-      document.getElementById('response').textContent = JSON.stringify(data, null, 2);
-    } else {
-      // Request gagal
-      document.getElementById('response').textContent = 'Error: ' + xhr.status;
-    }
-  };
-
-  // Mengirim request
-  xhr.send();
-
-}
-  </script>
+    <script>
+      fetch("https://icanhazdadjoke.com/", {
+        headers: {
+          Accept: "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          const resultDiv = document.getElementById("result");
+          resultDiv.innerHTML = `
+                    <p>Joke ID: ${data.id}</p>
+                    <p>Joke: ${data.joke}</p>
+                    <p>Status: ${data.status}</p>
+                `;
+        })
+        .catch((error) => {
+          const resultDiv = document.getElementById("result");
+          resultDiv.innerHTML = "<p>Error: Unable to fetch data</p>";
+          console.error(error);
+        });
+    </script>
+  </body>
 </html>
 
-===================================================
+
+==================================================
